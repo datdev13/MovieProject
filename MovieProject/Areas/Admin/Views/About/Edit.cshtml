@@ -1,0 +1,26 @@
+﻿@model Models.EF.About
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center;">Chỉnh sửa nội dung</h2>
+
+@using (Html.BeginForm("Edit", "About", FormMethod.Post, new { area = "Admin" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.AboutID)
+
+    <div class="form-group">
+        <label>Tên</label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Mô tả</label>
+        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 5 })
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+    <a href="@Url.Action("Index", "About", new { area = "Admin" })" class="btn btn-secondary">Quay lại</a>
+}
