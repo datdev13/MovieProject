@@ -10,6 +10,7 @@ namespace MovieProject.Common
 {
     public static class Encryptor
     {
+//Hash table
         public static string MD5Hash(string text)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
@@ -32,3 +33,4 @@ namespace MovieProject.Common
         }
     }
 }
+
