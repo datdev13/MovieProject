@@ -27,7 +27,24 @@
                             <marquee>Bạn đang xem phim @movie.Name trên Website OneMovies chấm cơm - Chúc các bạn có những giây phút thư giãn và vui vẻ cùng OneMovies ^^</marquee>
                         </div>
                         <div class="video-grid-single-page-agileits">
-                            <video src="@movie.MovieLink" controls="controls" width="700" height="400">Trình duyệt bạn đang dùng không hỗ trợ tag video.</video>
+                            @if (ViewBag.CanWatchFullMovie == true)
+                            {
+                                <video src="@movie.MovieLink" controls="controls" width="700" height="400">
+                                    Trình duyệt bạn đang dùng không hỗ trợ tag video.
+                                </video>
+                            }
+                            else
+                            {
+                                <iframe width="700" height="400" src="@movie.TrailerLink" frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+
+                                <div class="alert alert-warning" style="margin-top:15px;">
+                                    <strong>Bạn chưa thanh toán!</strong> Chỉ có thể xem trailer.
+                                    <a href="/Payment/Buy/@movie.MovieID" class="btn btn-success btn-sm">Thanh toán ngay</a>
+                                </div>
+                            }
+
 
                         </div>
                     </div>

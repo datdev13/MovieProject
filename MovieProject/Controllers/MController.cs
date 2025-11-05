@@ -72,7 +72,6 @@ namespace MovieProject.Controllers
         {
             if (id == null)
             {
-                // Nếu không có id => chuyển hướng về trang chủ hoặc trang lỗi
                 return RedirectToAction("Index", "Home");
             }
 
@@ -87,6 +86,7 @@ namespace MovieProject.Controllers
             ViewBag.ListMovieRelated = new MovieDao().ListMovieRelated(id.Value, 7);
             ViewBag.ListMovieNew1 = new MovieDao().ListMovieNew1(12);
 
+            // Cập nhật lượt xem
             Movie upview = db.Movies.Find(id.Value);
             if (upview.Viewed == null)
             {
@@ -96,12 +96,36 @@ namespace MovieProject.Controllers
             {
                 upview.Viewed = upview.Viewed + 1;
             }
-
             db.Entry(upview).State = EntityState.Modified;
             db.SaveChanges();
 
+            // Lấy thông tin user đang đăng nhập
+            var session = (MovieProject.Common.UserLogin)Session[MovieProject.Common.CommonContants.USER_SESSION];
+            if (session != null)
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserName == session.UserName);
+
+                if (user != null && !user.IsPaid)
+                {
+                    // Nếu chưa thanh toán -> chỉ cho xem trailer
+                    ViewBag.CanWatchFullMovie = false;
+                }
+                else
+                {
+                    // Đã thanh toán -> xem full movie
+                    ViewBag.CanWatchFullMovie = true;
+                }
+            }
+            else
+            {
+                // Chưa đăng nhập
+                ViewBag.CanWatchFullMovie = false;
+            }
+
             return View(upview);
         }
+
+
 
 
     }

@@ -106,6 +106,7 @@
     <Compile Include="EF\Movie.cs" />
     <Compile Include="EF\MovieProjectDbcontext.cs" />
     <Compile Include="EF\News.cs" />
+    <Compile Include="EF\Payment.cs" />
     <Compile Include="EF\Permission.cs" />
     <Compile Include="EF\Role.cs" />
     <Compile Include="EF\Slide.cs" />

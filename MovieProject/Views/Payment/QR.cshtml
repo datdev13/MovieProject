@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Thanh toán";
+}
+
+<div class="container text-center mt-5">
+    <h2>💳 Quét mã QR để thanh toán</h2>
+    <p>Gói: <strong>@ViewBag.Package</strong></p>
+    <p>Số tiền: <strong>@ViewBag.Amount.ToString("N0")</strong> VNĐ</p>
+
+    <img src="~/Content/images/QR-payment.jpg" alt="QR ngân hàng" width="300" class="my-3" />
+
+    <p>Vui lòng chuyển khoản chính xác nội dung: <strong>PAY-@ViewBag.MovieId-@ViewBag.Package</strong></p>
+    <p>Sau khi thanh toán, admin sẽ xác nhận trong vòng 24h.</p>
+
+    <a href="/" class="btn btn-primary mt-3">Về trang chủ</a>
+</div>

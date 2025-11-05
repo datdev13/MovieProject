@@ -1,4 +1,4 @@
-namespace Models.EF
+﻿namespace Models.EF
 {
     using System;
     using System.Collections.Generic;
@@ -42,5 +42,8 @@ namespace Models.EF
 
         [StringLength(20)]
         public string GroupID { get; set; }
+
+        // 👉 Thêm dòng này để khắc phục lỗi
+        public bool IsPaid { get; set; } = false;
     }
 }
