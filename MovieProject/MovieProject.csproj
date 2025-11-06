@@ -3639,6 +3639,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -3693,6 +3694,7 @@
     <Folder Include="Areas\Admin\ckeditor\plugins\imagebase\styles\" />
     <Folder Include="Areas\Admin\ckeditor\samples\old\easyimage\" />
     <Folder Include="Areas\Admin\ckfinder\core\connector\aspx\files\" />
+    <Folder Include="Areas\Admin\Controllers\NewFolder1\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Content\images\" />

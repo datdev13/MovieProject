@@ -43,7 +43,9 @@
         [StringLength(20)]
         public string GroupID { get; set; }
 
-        // 👉 Thêm dòng này để khắc phục lỗi
-        public bool IsPaid { get; set; } = false;
+        public DateTime? PaidUntil { get; set; }  // Ngày hết hạn gói (cho phép null)
+
+        public bool IsPaid { get; set; }          // Cho biết user đã thanh toán hay chưa
+
     }
 }

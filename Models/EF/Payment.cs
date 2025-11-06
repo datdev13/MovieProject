@@ -21,6 +21,8 @@ namespace Models.EF
 
         public DateTime PaymentDate { get; set; } = DateTime.Now;
 
+        public DateTime? ApprovedDate { get; set; }
+
         [StringLength(50)]
         public string Status { get; set; }       // Pending, Approved, Rejected
 
@@ -30,5 +32,7 @@ namespace Models.EF
 
         [ForeignKey("MovieID")]
         public virtual Movie Movie { get; set; } // 👉 Thêm dòng này: liên kết đến bảng Movie
+
+
     }
 }
