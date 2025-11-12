@@ -119,13 +119,21 @@ namespace MovieProject.Areas.Admin.Controllers
 
             });
         }
-        [HttpDelete]
-       
-        public ActionResult Delete(int id)
+        [HttpPost]
+        public JsonResult Delete(int id)
         {
-            new UserDao().Delete(id);
-            return Redirect("Index");
+            var user = db.Users.SingleOrDefault(x => x.UserID == id);
+            if (user == null)
+            {
+                return Json(new { status = false, message = "Không tìm thấy user" });
+            }
+
+            db.Users.Remove(user);
+            db.SaveChanges();
+
+            return Json(new { status = true });
         }
+
         public ActionResult LogoutAD ()
         {
             Session[Common.CommonContants.USER_SESSION] = null;

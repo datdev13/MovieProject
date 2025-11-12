@@ -1,25 +1,50 @@
 ﻿@{
+
     ViewBag.Title = "Chọn gói cước";
+
 }
 
+
+
 <div class="container mt-5 text-center">
+
     <h2>🎬 Chọn gói cước xem phim</h2>
+
     <p>Phim ID: <strong>@ViewBag.MovieId</strong></p>
 
+
+
     <form method="post" action="/Payment/Confirm">
+
         <input type="hidden" name="movieId" value="@ViewBag.MovieId" />
+
         <div class="btn-group" data-toggle="buttons">
+
             <label class="btn btn-outline-primary">
+
                 <input type="radio" name="package" value="1 tháng" required /> 1 tháng - 50.000đ
+
             </label>
+
             <label class="btn btn-outline-primary">
+
                 <input type="radio" name="package" value="3 tháng" /> 3 tháng - 120.000đ
+
             </label>
+
             <label class="btn btn-outline-primary">
+
                 <input type="radio" name="package" value="12 tháng" /> 12 tháng - 400.000đ
+
             </label>
+
         </div>
+
         <br />
+
         <button type="submit" class="btn btn-success mt-3">Tiếp tục</button>
+
     </form>
+
 </div>
+

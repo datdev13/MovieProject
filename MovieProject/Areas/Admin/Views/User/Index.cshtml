@@ -91,16 +91,8 @@
                                         <i class="fa fa-pencil">Sửa</i>
                                     </button>
                                     &nbsp; &nbsp; &nbsp;
-                                    <button class="btn btn-outline-warning">
-                                        <i class="fa fa-trash-o">
-                                            @Ajax.ActionLink("Xoá", "Delete", new { @id = item.UserID }, new AjaxOptions
-                                       {
-                                           Confirm = "Bạn có muốn xoá bản ghi này?",
-                                           OnComplete = "$('row_" + @item.UserID + "').remove()",
-                                           HttpMethod = "Delete"
-                                       })
-                                        </i>
-
+                                    <button onclick="XoaUser(@item.UserID)" class="btn btn-outline-warning">
+                                        <i class="fa fa-trash-o">Xoá</i>
                                     </button>
                                 </td>
                             </tr>
@@ -154,6 +146,27 @@
             }
         });
     }
+    function XoaUser(id) {
+        if (!confirm("Bạn có muốn xóa User này?")) return;
+
+        $.ajax({
+            url: '/Admin/User/Delete',
+            type: 'POST',
+            data: { id: id },
+            success: function (res) {
+                if (res.status) {
+                    $("#row_" + id).remove();
+                    alert("Xóa thành công!");
+                } else {
+                    alert("Không thể xóa user!");
+                }
+            },
+            error: function () {
+                alert("Lỗi không thể xóa!");
+            }
+        });
+    }
+
 </script>
 
 
