@@ -1,32 +1,176 @@
 ﻿@{
+    ViewBag.Title = "Hoàn Tất Thanh Toán";
 
-    ViewBag.Title = "Thanh toán";
+    // Lấy SĐT thay vì UserID
+    var userPhone = ViewBag.UserPhone; // <-- SỬ DỤNG ViewBag.UserPhone
 
+    // Ánh xạ tên gói cước (Package) sang mã viết tắt (Mã gói)
+    string packageCode = "";
+    switch ((string)ViewBag.Package)
+    {
+        case "1 tháng":
+            packageCode = "1M";
+            break;
+        case "3 tháng":
+            packageCode = "3M";
+            break;
+        case "12 tháng":
+            packageCode = "12M";
+            break;
+        default:
+            packageCode = "UNKNOWN";
+            break;
+    }
+
+    // Tạo Nội dung chuyển khoản cuối cùng: PAY-[SĐT]-[Mã gói]
+    string transactionContent = $"PAY-{userPhone}-{packageCode}"; // <-- Dùng userPhone thay cho userId
 }
 
+<p style="font-size: 0.9rem; color: #888; margin-top: 10px;">
+    Số điện thoại của bạn: **@userPhone**
+</p>
+<style>
+    /* 1. Nền tổng thể và font */
+    body {
+        background-color: #f0f2f5;
+        color: #333;
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+    }
 
+    /* 2. Container chính */
+    .payment-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
 
-<div class="container text-center mt-5">
+        /* 3. Tiêu đề */
+        .payment-container h2 {
+            color: #28a745;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
 
-    <h2>💳 Quét mã QR để thanh toán</h2>
+    /* 4. Thông tin gói và số tiền */
+    .package-info {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+        color: #555;
+    }
 
-    <p>Gói: <strong>@ViewBag.Package</strong></p>
+    .amount-display {
+        font-size: 3.5rem;
+        font-weight: bold;
+        color: #dc3545;
+        margin: 20px 0;
+        display: block;
+    }
 
-    <p>Số tiền: <strong>@ViewBag.Amount.ToString("N0")</strong> VNĐ</p>
+    /* 5. Khung QR code */
+    .qr-code-box {
+        border: 2px solid #eee;
+        padding: 15px;
+        border-radius: 10px;
+        background-color: #fefefe;
+        display: inline-block;
+        margin-top: 20px;
+    }
 
+        .qr-code-box img {
+            max-width: 250px;
+            height: auto;
+            border-radius: 5px;
+        }
 
+    /* 6. Hướng dẫn và nội dung chuyển khoản */
+    .instruction-card {
+        background-color: #e6f7ff;
+        border: 1px solid #99daff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 30px;
+        text-align: left;
+        color: #0056b3;
+    }
 
-    <img src="~/Content/images/QR-payment.jpg" alt="QR ngân hàng" width="300" class="my-3" />
+        .instruction-card h4 {
+            color: #004085;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
 
+    .transaction-content {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        display: inline-block;
+        word-break: break-all;
+        margin-top: 10px;
+    }
 
+    /* 7. Thông báo và nút về trang chủ */
+    .info-message {
+        margin-top: 30px;
+        font-size: 0.95rem;
+        color: #666;
+    }
 
-    <p>Vui lòng chuyển khoản chính xác nội dung: <strong>PAY-@ViewBag.MovieId-@ViewBag.Package</strong></p>
+    .btn-home {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 30px;
+        transition: background-color 0.3s;
+    }
 
-    <p>Sau khi thanh toán, admin sẽ xác nhận trong vòng 24h.</p>
+        .btn-home:hover {
+            background-color: #0056b3;
+        }
+</style>
 
+<div class="payment-container">
+    <h2>🎉 Hoàn Tất Thanh Toán</h2>
+    <p class="lead" style="color: #666;">Vui lòng quét mã QR dưới đây để hoàn tất giao dịch và kích hoạt gói thành viên của bạn.</p>
 
+    <div class="package-info">
+        <p>Gói đã chọn: <strong>@ViewBag.Package</strong></p>
+        <small style="color: #888;">Số tiền cần chuyển:</small>
+        <span class="amount-display">@ViewBag.Amount.ToString("N0") VNĐ</span>
+    </div>
 
-    <a href="/" class="btn btn-primary mt-3">Về trang chủ</a>
+    <div class="qr-code-box">
+        <img src="~/Content/images/QR-payment.jpg" alt="Mã QR ngân hàng" />
+    </div>
 
+    <div class="instruction-card">
+        <h4><i class="fas fa-info-circle"></i> Hướng dẫn quan trọng</h4>
+        <p>1. Mở ứng dụng ngân hàng của bạn (hoặc ví điện tử).</p>
+        <p>2. Chọn chức năng "Quét mã QR" và quét mã trên.</p>
+        <p>3. Đảm bảo số tiền chuyển chính xác là: <strong style="color: #dc3545;">@ViewBag.Amount.ToString("N0") VNĐ</strong>.</p>
+        <p>4. Nhập chính xác nội dung chuyển khoản sau:</p>
+        <div class="transaction-content">@transactionContent</div>
+        <p style="margin-top: 15px;">5. Hoàn tất giao dịch.</p>
+
+      
+    </div>
+
+    <p class="info-message">
+        Sau khi thanh toán thành công, hệ thống sẽ tự động xác nhận và kích hoạt gói thành viên của bạn trong vài phút.
+        Trong trường hợp có sự cố hoặc cần hỗ trợ, vui lòng liên hệ 0833738304 hoặc admin@gmail.com.
+    </p>
+
+    <a href="/" class="btn-home">Về Trang Chủ</a>
 </div>
-

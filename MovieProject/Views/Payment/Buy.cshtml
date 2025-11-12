@@ -1,50 +1,192 @@
 ﻿@{
-
-    ViewBag.Title = "Chọn gói cước";
-
+    ViewBag.Title = "Chọn Gói Cước Thành Viên";
 }
 
 
 
-<div class="container mt-5 text-center">
+<div class="container" style="max-width: 1200px; margin: auto; padding: 50px 20px;">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 2.5rem; color: #ffc107;">✨ Chọn Gói Cước Thành Viên ✨</h2>
+        <p style="color: #ccc;">Mở khóa toàn bộ kho phim không giới hạn và hơn thế nữa!</p>
+        @if (ViewBag.MovieId != null)
+        {
+            <p style="font-size: 0.9rem; color: #888;">Phim ID: <strong>@ViewBag.MovieId</strong></p>
+        }
+    </div>
 
-    <h2>🎬 Chọn gói cước xem phim</h2>
-
-    <p>Phim ID: <strong>@ViewBag.MovieId</strong></p>
-
-
-
-    <form method="post" action="/Payment/Confirm">
-
+    <form method="post" action="/Payment/Confirm" id="packageForm">
         <input type="hidden" name="movieId" value="@ViewBag.MovieId" />
 
-        <div class="btn-group" data-toggle="buttons">
+        <div class="package-container">
 
-            <label class="btn btn-outline-primary">
-
-                <input type="radio" name="package" value="1 tháng" required /> 1 tháng - 50.000đ
-
+            <label class="package-card" data-package-name="1 tháng">
+                <input type="radio" name="package" value="1 tháng" data-amount="50000" required>
+                <h4>Gói 1 Tháng(1M)</h4>
+                <p style="color: #aaa;">Linh hoạt</p>
+                <span class="package-price">50.000₫</span>
+                <ul class="feature-list">
+                    <li>Chất lượng HD</li>
+                    <li>Xem trên 1 thiết bị</li>
+                </ul>
             </label>
 
-            <label class="btn btn-outline-primary">
-
-                <input type="radio" name="package" value="3 tháng" /> 3 tháng - 120.000đ
-
+            <label class="package-card" data-package-name="3 tháng">
+                <div class="ribbon">TIẾT KIỆM</div>
+                <input type="radio" name="package" value="3 tháng" data-amount="120000">
+                <h4>Gói 3 Tháng(3M)</h4>
+                <p style="color: #aaa;">Tiêu chuẩn</p>
+                <span class="package-price">120.000₫</span>
+                <ul class="feature-list">
+                    <li>Chất lượng Full HD</li>
+                    <li>Xem trên 2 thiết bị</li>
+                    <li>Không quảng cáo</li>
+                </ul>
             </label>
 
-            <label class="btn btn-outline-primary">
-
-                <input type="radio" name="package" value="12 tháng" /> 12 tháng - 400.000đ
-
+            <label class="package-card" data-package-name="12 tháng">
+                <div class="ribbon" style="background-color: #007bff;">PHỔ BIẾN NHẤT</div>
+                <input type="radio" name="package" value="12 tháng" data-amount="400000">
+                <h4>Gói 12 Tháng(12M)</h4>
+                <p style="color: #aaa;">Cao cấp</p>
+                <span class="package-price">400.000₫</span>
+                <ul class="feature-list">
+                    <li>Chất lượng 4K Ultra HD</li>
+                    <li>Xem trên 4 thiết bị</li>
+                    <li>Tải về xem offline</li>
+                </ul>
             </label>
-
         </div>
 
-        <br />
-
-        <button type="submit" class="btn btn-success mt-3">Tiếp tục</button>
-
+        <div style="text-align: center; margin-top: 40px;">
+            <button type="submit" id="btnSubmit" class="btn-action" disabled>
+                Tiếp tục thanh toán
+            </button>
+        </div>
     </form>
-
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cards = document.querySelectorAll('.package-card');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        cards.forEach(card => {
+            card.addEventListener('click', function (event) {
+                // Xóa trạng thái 'selected' khỏi tất cả các card
+                cards.forEach(c => c.classList.remove('selected'));
+                // Thêm trạng thái 'selected' vào card hiện tại
+                this.classList.add('selected');
+                // Kích hoạt radio button bên trong
+                this.querySelector('input[type="radio"]').checked = true;
+                // Kích hoạt nút Tiếp tục
+                btnSubmit.disabled = false;
+            });
+        });
+    });
+</script>
+
+<style>
+    /* 1. Thiết lập nền tối cho trang */
+    body {
+        background-color: #0d0d0d;
+        color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+
+    /* 2. Thiết lập Flexbox cho bố cục gói cước */
+    .package-container {
+        display: flex;
+        justify-content: center; /* Căn giữa các gói cước */
+        gap: 20px; /* Khoảng cách giữa các card */
+        flex-wrap: wrap; /* Cho phép xuống dòng nếu màn hình quá nhỏ */
+        padding: 40px 0;
+    }
+
+    /* 3. Thiết kế Card Gói Cước */
+    .package-card {
+        cursor: pointer;
+        width: 300px; /* Chiều rộng cố định cho Card */
+        border: 2px solid transparent;
+        transition: all 0.3s ease-in-out;
+        background-color: #1a1a1a;
+        color: #f8f9fa;
+        border-radius: 15px;
+        padding: 30px 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        position: relative;
+    }
+
+        .package-card:hover {
+            border-color: #007bff; /* Viền xanh khi hover */
+            transform: translateY(-5px);
+        }
+
+        .package-card.selected {
+            border-color: #8a2be2; /* Màu tím nổi bật khi chọn */
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);
+            background-color: #2b2b2b;
+        }
+
+        .package-card input[type="radio"] {
+            display: none;
+        }
+
+    .package-price {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #ffc107; /* Màu vàng nổi bật cho giá */
+        margin: 10px 0 20px;
+        display: block;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        text-align: left;
+        margin-top: 15px;
+        display: inline-block;
+    }
+
+        .feature-list li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+            .feature-list li::before {
+                content: "⭐";
+                margin-right: 10px;
+            }
+
+    .ribbon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: #dc3545;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .btn-action {
+        background-color: #8a2be2; /* Màu tím cho nút */
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .btn-action:hover:not(:disabled) {
+            background-color: #7a1be1;
+        }
+
+        .btn-action:disabled {
+            background-color: #5a5a5a;
+            cursor: not-allowed;
+        }
+</style>

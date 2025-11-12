@@ -66,9 +66,12 @@ namespace MovieProject.Controllers
             ViewBag.Package = package;
             ViewBag.MovieId = movieId;
             ViewBag.UserName = user.Name;
+            ViewBag.UserPhone = string.IsNullOrEmpty(user.Phone) ? "NOSDT" : user.Phone;
 
             // Chuyển sang trang hiển thị mã QR để người dùng thanh toán
             return View("QR");
+
+
         }
 
     }
